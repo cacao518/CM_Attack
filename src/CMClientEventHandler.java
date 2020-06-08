@@ -1,3 +1,9 @@
+import java.io.File;
+
+import javax.sound.sampled.AudioInputStream;
+import javax.sound.sampled.AudioSystem;
+import javax.sound.sampled.Clip;
+
 import kr.ac.konkuk.ccslab.cm.event.CMDummyEvent;
 import kr.ac.konkuk.ccslab.cm.event.CMEvent;
 import kr.ac.konkuk.ccslab.cm.event.CMUserEvent;
@@ -35,12 +41,21 @@ public class CMClientEventHandler implements CMAppEventHandler {
 						break;
 					case "move":
 						updateMove(use);
+						break;
+					case "attackSuccess":
+						attackSuceess(use);
+						break;
 				}
 				break;
 			default:
 				return;
 		}
 	}
+	private void attackSuceess(CMUserEvent use) {
+		// TODO Auto-generated method stub
+		Play("sound/enemyAttack.wav");
+	}
+
 	//client 그룹정보 갱신
 	private void updateGroupInfo(CMUserEvent use){
 		int group = Integer.parseInt(use.getEventField(CMInfo.CM_INT,"group"));
@@ -54,6 +69,7 @@ public class CMClientEventHandler implements CMAppEventHandler {
 	private void updateHPInfo(CMUserEvent use){
 		int damage = Integer.parseInt(use.getEventField(CMInfo.CM_INT, "damage"));
 		client.player.m_hp -= damage;
+		Play("sound/myAttack.wav");
 	}
 	private void gameOver(CMUserEvent use){
 		if(use.getEventField(CMInfo.CM_STR, "winner").equals(client.player.getM_name())){
@@ -80,5 +96,15 @@ public class CMClientEventHandler implements CMAppEventHandler {
 		if (gm.equals("start"))
 			client.Game();
 		return;
+	}
+	public void Play(String fileName){
+		try{
+			AudioInputStream ais = AudioSystem.getAudioInputStream(new File(fileName));
+			Clip clip = AudioSystem.getClip();
+			clip.stop();
+			clip.open(ais);
+			clip.start();
+		}
+		catch (Exception ex){}
 	}
 }

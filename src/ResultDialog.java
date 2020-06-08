@@ -66,7 +66,7 @@ public class ResultDialog extends JDialog implements ActionListener{
 	}
 	ResultDialog(Client c, int status, InGameDialog dlg)
 	{
-		super();
+		super(dlg, "Result", true);
 		client = c;
 		parent = dlg;
 		init(status);

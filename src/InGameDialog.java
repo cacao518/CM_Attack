@@ -48,7 +48,7 @@ public class InGameDialog  extends JFrame implements ActionListener, Runnable {
     Graphics bufferGraphics;
 
     int Bullet = 30;
-	int BGposX = -703;
+	int BGposX = -695;
 	int OPposHelper = 0;
 	long millis = System.currentTimeMillis();
 	int FireMotionTime = 0;
@@ -195,7 +195,7 @@ public class InGameDialog  extends JFrame implements ActionListener, Runnable {
 	        long time = System.currentTimeMillis();
 			long subs = time - millis;
 			if(subs>speed && Bullet > 0) {
-	            int x = e.getX();
+	            int x = e.getX()-10;
 	            int y = e.getY();
 	            double dValue1 = Math.random();
 	            double dValue2 = Math.random();

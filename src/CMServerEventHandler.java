@@ -14,7 +14,7 @@ import kr.ac.konkuk.ccslab.cm.stub.CMServerStub;
 import kr.ac.konkuk.ccslab.cm.stub.CMStub;
 
 public class CMServerEventHandler implements CMAppEventHandler {
-	static int HIT_RANGE = 20;
+	static int HIT_RANGE = 12;
 
 	private Server m_server;
 	private CMServerStub m_serverStub;
@@ -46,7 +46,7 @@ public class CMServerEventHandler implements CMAppEventHandler {
 			case CMInfo.CM_USER_EVENT:
 				CMUserEvent ue = (CMUserEvent) cme;
 				if (Integer.parseInt(ue.getEventField(CMInfo.CM_INT, "group")) == -1) {
-					System.out.println("けいしかいしかいしかいしかいしかいしぉ" + playerCount);
+					System.out.println("けい" + playerCount);
 					joinPlayer(cme);
 				}
 				else {
@@ -129,13 +129,15 @@ public class CMServerEventHandler implements CMAppEventHandler {
 					}
 				}
 			}
+			CMUserEvent use2 = new CMUserEvent();
+			use2.setStringID("attackSuccess");
+			m_serverStub.send(use2, gm.PM[pIndex1].getM_name());
+			
 			System.out.println("けいしけいけいしぜせずせぜず"+gm.PM[pIndex2].getM_hp());
 			m_serverStub.send(use, gm.PM[pIndex2].getM_name());
 			if(gm.PM[pIndex2].getM_hp() <= 0){
 				endGame(gm.PM[pIndex2].m_name, gm.PM[pIndex1].m_name, gIndex);
 			}
-
-
 		}
 		else if(ue.getStringID().equals("move")){
 			//崇送戚澗 衝芝
