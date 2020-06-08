@@ -1,2 +1,4 @@
-# CM_Attack.
-2020 협동분산시스템 기말 프로젝트
+# CM_Attack
+>2020/1  Collaborative Distributed System Term Project!
+
+>> implemeted with 'Communication Framework(CM)' by https://github.com/ccslab/CM, which provides a client-server java application framework
