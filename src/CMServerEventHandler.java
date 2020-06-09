@@ -65,22 +65,30 @@ public class CMServerEventHandler implements CMAppEventHandler {
 		String ip = ue.getEventField(CMInfo.CM_STR, "ip");
 		String name = ue.getEventField(CMInfo.CM_STR, "name");
 		int gunType = Integer.parseInt(ue.getEventField(CMInfo.CM_INT, "GunType"));
-		if(PMIndex == 1){
+		if(PMIndex == 1){ //처음 들어온 사람
 			GM.add(GMIndex, new GameManager());
 		}
 		PlayerManager[] pm = GM.get(GMIndex).getPM();
 		pm[PMIndex].setProperty(ip, name, GMIndex, gunType);
 
-		if(PMIndex == 0) {
+		if(PMIndex == 0) { // 두번째로 들어온 사람
 			GM.get(GMIndex).m_gameStatus = 1;
-			CMUserEvent use = new CMUserEvent();
-			use.setStringID("joinComplete");
-			use.setEventField(CMInfo.CM_INT,"group",String.valueOf(GMIndex));
-			use.setEventField(CMInfo.CM_STR,"ip",ip);
-			use.setEventField(CMInfo.CM_STR,"name",name);
-			use.setEventField(CMInfo.CM_INT,"guntype",String.valueOf(gunType));
-			m_serverStub.send(use, GM.get(GMIndex).PM[0].m_name);
-			m_serverStub.send(use, GM.get(GMIndex).PM[1].m_name);
+			
+			CMUserEvent use1 = new CMUserEvent();
+			use1.setStringID("joinComplete");
+			use1.setEventField(CMInfo.CM_INT,"group",String.valueOf(GMIndex));
+			use1.setEventField(CMInfo.CM_STR,"ip",pm[1].m_ip);
+			use1.setEventField(CMInfo.CM_STR,"name",pm[1].m_name);
+			use1.setEventField(CMInfo.CM_INT,"guntype",String.valueOf(pm[1].m_gunType));
+			m_serverStub.send(use1, GM.get(GMIndex).PM[0].m_name); // 두번째 들어온 사람한테 첫번째 사람정보 전송
+			
+			CMUserEvent use2 = new CMUserEvent();
+			use2.setStringID("joinComplete");
+			use2.setEventField(CMInfo.CM_INT,"group",String.valueOf(GMIndex));
+			use2.setEventField(CMInfo.CM_STR,"ip",ip);
+			use2.setEventField(CMInfo.CM_STR,"name",name);
+			use2.setEventField(CMInfo.CM_INT,"guntype",String.valueOf(gunType));
+			m_serverStub.send(use2, GM.get(GMIndex).PM[1].m_name); // 처음 들어온 사람한테 두번째사람 정보 전송
 		}
 	}
 	private void playGame(CMEvent cme){

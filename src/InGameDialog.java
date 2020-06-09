@@ -105,7 +105,9 @@ public class InGameDialog  extends JFrame implements ActionListener, Runnable {
 		buffg.drawImage(BGimg, BGposX + client.player.m_playerPosX, 0, null);//background¸¦ ±×·ÁÁÜ
 		buffg.drawImage(FPGunimg1, 550, 370, null);
 		buffg.drawImage(OtherPlayer_idle_img, client.otherPlayer.m_playerPosX + (client.player.m_playerPosX-403), 305, null);
-
+		buffg.setFont(new Font("±¼¸²", Font.BOLD, 13));
+		buffg.drawString(client.otherPlayer.getM_name(), client.otherPlayer.m_playerPosX + (client.player.m_playerPosX-395) - (client.otherPlayer.getM_name().getBytes().length*2), 303);
+		
 		buffg.setFont(new Font("Defualt", Font.BOLD, 20));
 		buffg.drawString("HP : " + client.player.getM_hp(), 40, 550);
 		buffg.drawString("Bullet : " + Bullet, 40, 570);
@@ -113,7 +115,7 @@ public class InGameDialog  extends JFrame implements ActionListener, Runnable {
 		buffg.setFont(new Font("Defualt", Font.BOLD, 25));
 		buffg.drawString(client.player.m_name, 35, 65);
 		
-		buffg.drawImage(indicator_img, 300, 100, null);
+		buffg.drawImage(indicator_img, 290, 100, null);
 		
 		g.drawImage(buffImage, 0, 0, this);
     }

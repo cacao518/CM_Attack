@@ -33,7 +33,7 @@ public class ResultDialog extends JDialog implements ActionListener{
 		else
 			resultMessage = "ÆÐ¹è";
 
-		this.setLayout(new FlowLayout(FlowLayout.CENTER,500,15));
+		this.setLayout(new FlowLayout(FlowLayout.CENTER,1000,15));
 		panel1 = new JPanel();
 		label = new JLabel(resultMessage);
 		f1 = new Font("¸¼Àº °íµñ", Font.BOLD, 45);
