@@ -17,6 +17,7 @@ public class GameManager {
 		return PM;
 	}
 
+	/*
 	public void GameReady()
 	{
 		
@@ -33,4 +34,5 @@ public class GameManager {
 	{
 		
 	}
+	*/
 }

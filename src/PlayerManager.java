@@ -11,6 +11,7 @@ public class PlayerManager {
 	int m_playerPosX;
 	int m_playerPosY;
 	boolean m_isDie = false;
+	int indicatorTime;
 	
 	public PlayerManager(String m_ip, String m_name, int m_group, int m_gunType) {
 		super();
@@ -25,6 +26,7 @@ public class PlayerManager {
 		this.m_playerPosX = 403;
 		this.m_playerPosY = 317;
 		this.m_isDie = false;
+		this.indicatorTime = 0;
 	}
 	public void setProperty(String ip, String name, int group, int gunType){
 		this.setM_ip(ip);

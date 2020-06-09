@@ -14,7 +14,7 @@ import kr.ac.konkuk.ccslab.cm.stub.CMServerStub;
 import kr.ac.konkuk.ccslab.cm.stub.CMStub;
 
 public class CMServerEventHandler implements CMAppEventHandler {
-	static int HIT_RANGE = 12;
+	static int HIT_RANGE = 15;
 
 	private Server m_server;
 	private CMServerStub m_serverStub;

@@ -69,6 +69,7 @@ public class CMClientEventHandler implements CMAppEventHandler {
 	private void updateHPInfo(CMUserEvent use){
 		int damage = Integer.parseInt(use.getEventField(CMInfo.CM_INT, "damage"));
 		client.player.m_hp -= damage;
+		client.player.indicatorTime = 10;
 		Play("sound/myAttack.wav");
 	}
 	private void gameOver(CMUserEvent use){

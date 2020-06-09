@@ -53,7 +53,8 @@ public class ResultDialog extends JDialog implements ActionListener{
 		public void windowClosing(WindowEvent e) {
 			// TODO Auto-generated method stub
 			super.windowClosing(e);
-			dispose(); // 자신만 사라짐
+			parent.dispose();
+			dispose();
 		}});
 	}
 	public void actionPerformed(ActionEvent e) {

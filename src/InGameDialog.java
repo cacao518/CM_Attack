@@ -39,7 +39,7 @@ public class InGameDialog  extends JFrame implements ActionListener, Runnable {
 	JTextField nameText;
 
 	Image cursorimage;
-	Image BGimg, FPGunimg1, OtherPlayer_idle_img;
+	Image BGimg, FPGunimg1, OtherPlayer_idle_img, indicator_img;
 	Image buffImage;
 	Graphics buffg;
 	Cursor cursor;
@@ -110,6 +110,11 @@ public class InGameDialog  extends JFrame implements ActionListener, Runnable {
 		buffg.drawString("HP : " + client.player.getM_hp(), 40, 550);
 		buffg.drawString("Bullet : " + Bullet, 40, 570);
 
+		buffg.setFont(new Font("Defualt", Font.BOLD, 25));
+		buffg.drawString(client.player.m_name, 35, 65);
+		
+		buffg.drawImage(indicator_img, 300, 100, null);
+		
 		g.drawImage(buffImage, 0, 0, this);
     }
 
@@ -148,6 +153,14 @@ public class InGameDialog  extends JFrame implements ActionListener, Runnable {
 					cursor=kit.createCustomCursor(cursorimage, point, "haha");
 					cont.setCursor(cursor);
 				}
+				if(client.player.indicatorTime > 0)
+				{
+					indicator_img = new ImageIcon("img/damage_Indicator.png").getImage();
+					client.player.indicatorTime--;
+				}
+				else
+					indicator_img = null;
+				
 				Game.sleep(33);
 
 			} catch (InterruptedException e) {
@@ -195,7 +208,7 @@ public class InGameDialog  extends JFrame implements ActionListener, Runnable {
 	        long time = System.currentTimeMillis();
 			long subs = time - millis;
 			if(subs>speed && Bullet > 0) {
-	            int x = e.getX()-10;
+	            int x = e.getX()-15;
 	            int y = e.getY();
 	            double dValue1 = Math.random();
 	            double dValue2 = Math.random();
