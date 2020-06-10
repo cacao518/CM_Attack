@@ -54,6 +54,8 @@ public class CMClientEventHandler implements CMAppEventHandler {
 	private void attackSuceess(CMUserEvent use) {
 		// TODO Auto-generated method stub
 		Play("sound/enemyAttack.wav");
+		client.player.attackSuccessTime = 50;
+		client.player.attackSuccessDamage = Integer.parseInt(use.getEventField(CMInfo.CM_INT, "damage"));
 	}
 
 	//client 그룹정보 갱신
@@ -69,7 +71,7 @@ public class CMClientEventHandler implements CMAppEventHandler {
 	private void updateHPInfo(CMUserEvent use){
 		int damage = Integer.parseInt(use.getEventField(CMInfo.CM_INT, "damage"));
 		client.player.m_hp -= damage;
-		client.player.indicatorTime = 10;
+		client.player.indicatorTime = 50;
 		Play("sound/myAttack.wav");
 	}
 	private void gameOver(CMUserEvent use){

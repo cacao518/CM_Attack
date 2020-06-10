@@ -65,8 +65,8 @@ public class MatchDialog extends JDialog implements ActionListener{
 		public void windowClosing(WindowEvent e) {
 			// TODO Auto-generated method stub
 			super.windowClosing(e);
-			parent.matchDlg = null; // 부모의 dlg를 널로 해줘야 다시 다이얼로그창 띄울수있게 해놨기때문
-			dispose(); // 자신만 사라짐
+			parent.dispose();
+			dispose();
 		}});
 	}
 	
@@ -98,8 +98,7 @@ public class MatchDialog extends JDialog implements ActionListener{
 		// TODO Auto-generated method stub
 		if(e.getSource()== Btn1 )
 		{	
-			//client.Game();
-			parent.matchDlg = null;
+			parent.dispose();
 			dispose();
 		}
 	}

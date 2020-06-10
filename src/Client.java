@@ -57,7 +57,10 @@ public class Client{
 //		due = null;
 //		System.out.println("[Client] 서버로 현재시간을 요청했습니다. ");
 	}
-	
+	public void Login()
+	{
+		loginDlg = new LoginDialog(client);
+	}
 	public void Game()
 	{
 		//게임 윈도우
@@ -68,7 +71,7 @@ public class Client{
 		
 		inGameDlg = new InGameDialog(client);
 	}
-	
+
 	public void GameOver(int status)
 	{
 		resultDlg = new ResultDialog(client, status, inGameDlg);
@@ -78,7 +81,7 @@ public class Client{
 		client = new Client();
 		client.m_clientStub.setAppEventHandler(client.m_eventHandler);
 		client.m_clientStub.startCM();
-		loginDlg = new LoginDialog(client);
+		client.Login();
 	}
 
 

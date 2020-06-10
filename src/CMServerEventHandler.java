@@ -91,7 +91,9 @@ public class CMServerEventHandler implements CMAppEventHandler {
 			m_serverStub.send(use2, GM.get(GMIndex).PM[1].m_name); // 처음 들어온 사람한테 두번째사람 정보 전송
 		}
 	}
-	private void playGame(CMEvent cme){
+	private void playGame(CMEvent cme)
+	{
+		int dmg = 0;
 		CMUserEvent ue = (CMUserEvent) cme;
 		int gIndex = Integer.parseInt(ue.getEventField(CMInfo.CM_INT,"group"));
 		String userName = ue.getEventField(CMInfo.CM_STR,"name");
@@ -100,7 +102,8 @@ public class CMServerEventHandler implements CMAppEventHandler {
 		int pIndex2;
 
 		GameManager gm = GM.get(gIndex);
-		if(gm.PM[0].getM_name().equals(userName)){
+		if(gm.PM[0].getM_name().equals(userName))
+		{
 			pIndex1=0;
 			pIndex2=1;
 		}
@@ -109,45 +112,52 @@ public class CMServerEventHandler implements CMAppEventHandler {
 			pIndex2=0;
 		}
 		System.out.println("ㅁㄴㅋㅌㅊㅂㅈㄷㅋㅌㅊpindex2: "+pIndex2);
-		if(ue.getStringID().equals("click")){
+		if(ue.getStringID().equals("click"))
+		{
 			//총쏘는 액션
 			int gunType = gm.PM[pIndex1].getM_gunType();
+			switch (gunType)
+			{
+			case 0:	//라플
+				dmg = (int)(Math.random() * 20) + 10;
+				break;
+			case 1:	//스나이퍼
+				dmg = (int)(Math.random() * 40) + 60;
+				break;
+			}
 			System.out.println("ㅁㄴㅇㅋㅌㅊㅁㄴㅇㅈㅂㅇㅈㅂ:gunType : " + gunType);
 			int aimX = Integer.parseInt(ue.getEventField(CMInfo.CM_INT,"aimX"));
 			int aimY = Integer.parseInt(ue.getEventField(CMInfo.CM_INT,"aimY"));
 			CMUserEvent use = new CMUserEvent();
 			//TODO x,y좌표 계산하여 히트되었는지 체크 후 hp변환정보 send
-			if(aimX <= gm.PM[pIndex2].m_playerPosX + (gm.PM[pIndex1].m_playerPosX-403) + HIT_RANGE && aimX >= gm.PM[pIndex2].m_playerPosX + (gm.PM[pIndex1].m_playerPosX-403) - HIT_RANGE){
-				if(aimY <= gm.PM[pIndex2].m_playerPosY + HIT_RANGE && aimY >= gm.PM[pIndex2].m_playerPosY - HIT_RANGE) {
+			if(aimX <= gm.PM[pIndex2].m_playerPosX + (gm.PM[pIndex1].m_playerPosX-403) + HIT_RANGE && aimX >= gm.PM[pIndex2].m_playerPosX + (gm.PM[pIndex1].m_playerPosX-403) - HIT_RANGE)
+			{
+				if(aimY <= gm.PM[pIndex2].m_playerPosY + HIT_RANGE && aimY >= gm.PM[pIndex2].m_playerPosY - HIT_RANGE)
+				{
 					System.out.println("ㅁㄴㅊㅋㅌㅊㄴㅁㅇㅁ맞았다!");
 					use.setStringID("hit");
-					switch (gunType){
-						case 0:	//라플
-							int dmg1 = (int)(Math.random() * 20) + 10;
-							System.out.println("ㅁㄴㅊㅋㅌㅊㄴㅁㅇㅁDAMAGE: "+dmg1);
-							use.setEventField(CMInfo.CM_INT,"damage",String.valueOf(dmg1));
-							gm.PM[pIndex2].setM_hp(gm.PM[pIndex2].getM_hp()-dmg1);
-							use.setEventField(CMInfo.CM_INT, "hp", String.valueOf(gm.PM[pIndex2].getM_hp()));
-							break;
-						case 1:	//스나이퍼
-							int dmg2 = (int)(Math.random() * 40)+60;
-							use.setEventField(CMInfo.CM_INT,"damage",String.valueOf(dmg2));
-							gm.PM[pIndex2].setM_hp(gm.PM[pIndex2].getM_hp()-dmg2);
-							break;
+					System.out.println("ㅁㄴㅊㅋㅌㅊㄴㅁㅇㅁDAMAGE: "+dmg);
+					use.setEventField(CMInfo.CM_INT,"damage",String.valueOf(dmg));
+					gm.PM[pIndex2].setM_hp(gm.PM[pIndex2].getM_hp()-dmg);
+					use.setEventField(CMInfo.CM_INT, "hp", String.valueOf(gm.PM[pIndex2].getM_hp()));
+
+					CMUserEvent use2 = new CMUserEvent();
+					use2.setStringID("attackSuccess");
+					use2.setEventField(CMInfo.CM_INT,"damage",String.valueOf(dmg));
+					m_serverStub.send(use2, gm.PM[pIndex1].getM_name());
+					
+					System.out.println("ㅁㄴㅇㅁㄴㅁㄴㅇㅌㅋㅊㅋㅌㅊ"+gm.PM[pIndex2].getM_hp());
+					m_serverStub.send(use, gm.PM[pIndex2].getM_name());
+					if(gm.PM[pIndex2].getM_hp() <= 0)
+					{
+						endGame(gm.PM[pIndex2].m_name, gm.PM[pIndex1].m_name, gIndex);
 					}
 				}
 			}
-			CMUserEvent use2 = new CMUserEvent();
-			use2.setStringID("attackSuccess");
-			m_serverStub.send(use2, gm.PM[pIndex1].getM_name());
 			
-			System.out.println("ㅁㄴㅇㅁㄴㅁㄴㅇㅌㅋㅊㅋㅌㅊ"+gm.PM[pIndex2].getM_hp());
-			m_serverStub.send(use, gm.PM[pIndex2].getM_name());
-			if(gm.PM[pIndex2].getM_hp() <= 0){
-				endGame(gm.PM[pIndex2].m_name, gm.PM[pIndex1].m_name, gIndex);
-			}
 		}
-		else if(ue.getStringID().equals("move")){
+		else if(ue.getStringID().equals("move"))
+		{
 			//움직이는 액션
 			boolean LR = true;
 			if(ue.getEventField(CMInfo.CM_STR, "x").equals("a"))	//a키 입력은 true

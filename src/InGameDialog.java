@@ -52,7 +52,7 @@ public class InGameDialog  extends JFrame implements ActionListener, Runnable {
 	int OPposHelper = 0;
 	long millis = System.currentTimeMillis();
 	int FireMotionTime = 0;
-	
+	String attackDamage = "";
 	InGameDialog (Client c)
 	{
 		client = c;
@@ -105,9 +105,16 @@ public class InGameDialog  extends JFrame implements ActionListener, Runnable {
 		buffg.drawImage(BGimg, BGposX + client.player.m_playerPosX, 0, null);//background를 그려줌
 		buffg.drawImage(FPGunimg1, 550, 370, null);
 		buffg.drawImage(OtherPlayer_idle_img, client.otherPlayer.m_playerPosX + (client.player.m_playerPosX-403), 305, null);
+		
 		buffg.setFont(new Font("굴림", Font.BOLD, 13));
+		buffg.setColor(new Color(0,0,0));
 		buffg.drawString(client.otherPlayer.getM_name(), client.otherPlayer.m_playerPosX + (client.player.m_playerPosX-395) - (client.otherPlayer.getM_name().getBytes().length*2), 303);
 		
+		buffg.setFont(new Font("굴림", Font.BOLD, 15));
+		buffg.setColor(new Color(255,0,0));
+		buffg.drawString(attackDamage, client.otherPlayer.m_playerPosX + (client.player.m_playerPosX-370), 323);
+		
+		buffg.setColor(new Color(0,0,0));
 		buffg.setFont(new Font("Defualt", Font.BOLD, 20));
 		buffg.drawString("HP : " + client.player.getM_hp(), 40, 550);
 		buffg.drawString("Bullet : " + Bullet, 40, 570);
@@ -163,7 +170,15 @@ public class InGameDialog  extends JFrame implements ActionListener, Runnable {
 				else
 					indicator_img = null;
 				
-				Game.sleep(33);
+				if(client.player.attackSuccessTime > 0)
+				{
+					attackDamage = "-"+String.valueOf(client.player.attackSuccessDamage);
+					client.player.attackSuccessTime--;
+				}
+				else
+					attackDamage = "";
+				
+				Game.sleep(5);
 
 			} catch (InterruptedException e) {
 				e.printStackTrace();
@@ -183,6 +198,8 @@ public class InGameDialog  extends JFrame implements ActionListener, Runnable {
 		public void keyPressed(KeyEvent e) {
 			switch(e.getKeyChar()) { // 입력된 키 문자
 				case 'a': // <Enter> 키 입력
+				case 'A':
+				case 'ㅁ':
 					if(client.player.getM_playerPosX() < 430)
 					{
 						System.out.println("pressA");
@@ -190,6 +207,8 @@ public class InGameDialog  extends JFrame implements ActionListener, Runnable {
 					}
 					break;
 				case 'd':
+				case 'D':
+				case 'ㅇ':
 					if(client.player.getM_playerPosX() > 370)
 					{
 						System.out.println("pressD");
@@ -223,7 +242,7 @@ public class InGameDialog  extends JFrame implements ActionListener, Runnable {
 	            sendmouse(x + dx ,y + dy);
 	            millis = System.currentTimeMillis();
 	            Play("sound/gun.wav");
-	            FireMotionTime = 3;
+	            FireMotionTime = 9;
 	            Bullet-=1;
 
 			}
