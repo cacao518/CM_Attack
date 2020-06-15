@@ -28,6 +28,9 @@ public class ResultDialog extends JDialog implements ActionListener{
 
 
 	public void init(int s) {
+		client.m_clientStub.leaveSession();
+		client.m_clientStub.logoutCM();
+		
 		if(s == 0)
 			resultMessage = "½Â¸®";
 		else
@@ -56,8 +59,6 @@ public class ResultDialog extends JDialog implements ActionListener{
 		public void windowClosing(WindowEvent e) {
 			// TODO Auto-generated method stub
 			super.windowClosing(e);
-			client.m_clientStub.leaveSession();
-			client.m_clientStub.logoutCM();
 			parent.dispose();
 			dispose();
 		}});
@@ -68,14 +69,10 @@ public class ResultDialog extends JDialog implements ActionListener{
 		{
 			parent.dispose();
 			dispose();
-			client.m_clientStub.leaveSession();
-			client.m_clientStub.logoutCM();
 			client.Login();
 		}
 		else if(e.getSource() == Btn2)
 		{
-			client.m_clientStub.leaveSession();
-			client.m_clientStub.logoutCM();
 			parent.dispose();
 			dispose();
 		}
