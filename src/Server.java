@@ -9,6 +9,7 @@ public class Server{
    private CMServerEventHandler m_eventHandler;
    private boolean m_bRun;
    private int playerCount;
+   private int gameCount;
    private ArrayList<GameManager> GM;
    
    public Server()
@@ -18,14 +19,21 @@ public class Server{
       playerCount = 0;
       m_eventHandler = new CMServerEventHandler(m_serverStub, GM, playerCount, this);
       m_bRun = true;
+      gameCount = 0;
 
    }
    public void plusPlayerCount(){
       this.playerCount++;
    }
+   public void plusGamecount() {
+	   this.gameCount++;
+   }
    public void minusPlayerCount() { this.playerCount--; }
    public int getPlayerCount(){
       return this.playerCount;
+   }
+   public int getGameCount() {
+	   return this.gameCount;
    }
    public void CreateGM() {
       

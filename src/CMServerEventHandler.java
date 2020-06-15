@@ -20,12 +20,14 @@ public class CMServerEventHandler implements CMAppEventHandler {
    private CMServerStub m_serverStub;
    private ArrayList<GameManager> GM;
    private int playerCount;
+   private int gameCount;
    public CMServerEventHandler(CMServerStub serverStub, ArrayList<GameManager> GM, int playerCount, Server server)
    {
       this.m_serverStub = serverStub;
       this.GM = GM;
       this.playerCount = playerCount;
       this.m_server = server;
+      this.gameCount = 0;
    }
 
    @Override
@@ -64,7 +66,7 @@ public class CMServerEventHandler implements CMAppEventHandler {
    private void joinPlayer(CMEvent cme) {
       System.out.println("joined");
       CMUserEvent ue = (CMUserEvent) cme;
-      int GMIndex = (playerCount - 1) / 2;
+      int GMIndex = gameCount;
       int PMIndex = playerCount % 2;
       //System.out.println(GMIndex);
       String ip = ue.getEventField(CMInfo.CM_STR, "ip");
@@ -94,6 +96,8 @@ public class CMServerEventHandler implements CMAppEventHandler {
          use2.setEventField(CMInfo.CM_STR,"name",name);
          use2.setEventField(CMInfo.CM_INT,"guntype",String.valueOf(gunType));
          m_serverStub.send(use2, GM.get(GMIndex).PM[1].m_name); // 처음 들어온 사람한테 두번째사람 정보 전송
+         m_server.plusGamecount();
+         this.gameCount = m_server.getGameCount();
       }
    }
    private void playGame(CMEvent cme)
