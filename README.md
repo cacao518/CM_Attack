@@ -1,5 +1,5 @@
 ### 2020년 1학기 협동분산시스템 팀 프로젝트
-# CM Attack : 실시간 온라인 FPS 게임
+# CM Attack : 온라인 FPS 게임
 ##### - Dev. 김근욱 김상호 문병준 유선규 윤지호
 https://www.youtube.com/watch?v=NT5deyIGM_M
 
